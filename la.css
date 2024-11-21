@@ -1,0 +1,224 @@
+
+  /* Slider */
+  .slider {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    overflow: hidden;
+  }
+  
+  .slider-container {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .slide {
+    min-width: 100%;
+  }
+  
+  .slider-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Przyciski boczne */
+  .side-buttons {
+    position: fixed;
+    left: 10px;
+    top: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .side-button {
+    text-decoration: none;
+    background: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    transition: background 0.3s, transform 0.3s;
+  }
+  
+  .side-button.extra-button {
+    background: #28a745;
+  }
+  
+  .side-button:hover {
+    background: #0056b3;
+    transform: scale(1.1);
+  }
+  
+  .side-button.extra-button:hover {
+    background: #218838;
+  }
+  
+  /* Oferty */
+  .offers {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin: 50px auto;
+    max-width: 800px;
+    padding: 0 20px;
+  }
+  
+  .offer {
+    display: flex;
+    flex-direction: column;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .offer-image {
+    width: 100%;
+    max-height: 200px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+  
+  .offer h2 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .offer p {
+    font-size: 16px;
+    color: #555;
+    margin: 10px 0 20px;
+  }
+  
+  .offer-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  
+  .offer-button:hover {
+    background: #0056b3;
+  }
+  
+  /* Sekcje FAQ, Jak to działa, Coś tam jeszcze */
+  section {
+    margin: 50px auto;
+    max-width: 800px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  section p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* Nagłówek */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0056b3;
+    padding: 10px 20px;
+    color: white;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+  }
+  
+  .logo-text {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Nawigacja */
+  .navbar {
+    flex-grow: 1;
+    margin-left: 20px;
+  }
+  
+  .menu {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .menu-item {
+    position: relative;
+  }
+  
+  .menu-item a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    padding: 10px 15px;
+    transition: background 0.3s;
+  }
+  
+  .menu-item a:hover {
+    background: #0041a3;
+    border-radius: 5px;
+  }
+  
+  /* Dropdown */
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .dropdown li {
+    margin: 0;
+  }
+  
+  .dropdown li a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    padding: 10px 15px;
+    transition: background 0.3s;
+  }
+  
+  .dropdown li a:hover {
+    background: #f1f1f1;
+  }
+  
+  /* Pokazywanie dropdown na hover */
+  .menu-item:hover .dropdown {
+    display: block;
+  }
+  
