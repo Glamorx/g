@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://lqsmae136t8r" path="res://ui.gd" id="2_e2o6t"]
 [ext_resource type="Script" uid="uid://c0y8ghs6iernf" path="res://map_builder.gd" id="3_80nbo"]
 [ext_resource type="Script" uid="uid://dpjgdqtey77sj" path="res://repair_zone.gd" id="3_feb5d"]
+[ext_resource type="PackedScene" path="res://pause_menu.tscn" id="5_pause"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fc0e3"]
 albedo_color = Color(0.33715287, 0.6809174, 0.3410456, 1)
@@ -164,3 +165,5 @@ current = true
 fov = 60.0
 near = 0.1
 far = 500.0
+
+[node name="PauseMenu" parent="." instance=ExtResource("5_pause")]

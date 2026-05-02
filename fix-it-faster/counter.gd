@@ -25,6 +25,7 @@ var rng: RandomNumberGenerator
 @onready var status_label: Label = $UI/Status
 @onready var level_label: Label = $UI/LevelLabel
 @onready var ui: CanvasLayer = $UI
+@onready var pause_menu: CanvasLayer = $PauseMenu
 @onready var player: CharacterBody3D = $Player
 @onready var car: StaticBody3D = $Car
 @onready var ground_mesh: MeshInstance3D = $Ground/MeshInstance3D
@@ -45,6 +46,9 @@ func _ready() -> void:
 		rng = RandomNumberGenerator.new()
 		rng.randomize()
 
+	if pause_menu:
+		pause_menu.exit_to_menu.connect(_on_exit_to_menu)
+
 	_resize_ground()
 	_position_player_and_car()
 	_adjust_camera()
@@ -59,7 +63,10 @@ func _ready() -> void:
 	if map and map.has_method("build_with"):
 		map.build_with(map_size, rng)
 
-	await get_tree().process_frame
+	# Wait two physics frames so the newly-built map's colliders are registered
+	# before we shape-query the world for valid part spawn positions.
+	await get_tree().physics_frame
+	await get_tree().physics_frame
 	_spawn_random_parts()
 	update_ui()
 	if level_label:
@@ -88,11 +95,16 @@ func _position_player_and_car() -> void:
 @export var camera_offset: Vector3 = Vector3(0, 14, 11)
 @export var camera_follow_speed: float = 6.0
 
+var _camera_look_target: Vector3 = Vector3.ZERO
+var _camera_initialized: bool = false
+
 func _adjust_camera() -> void:
 	if camera and player:
 		camera.global_position = player.global_position + camera_offset
-		camera.look_at(player.global_position, Vector3.UP)
+		_camera_look_target = player.global_position
+		camera.look_at(_camera_look_target, Vector3.UP)
 		camera.fov = 60.0
+		_camera_initialized = true
 
 func _create_player_arrow() -> void:
 	if not player:
@@ -149,17 +161,29 @@ func _create_player_arrow() -> void:
 	spin.tween_property(spinner, "rotation:y", TAU, 3.0).from(0.0)
 
 func _spawn_random_parts() -> void:
-	var min_x := -map_size.x * 0.5 + 3.0
-	var max_x := map_size.x * 0.5 - 3.0
-	var min_z := -map_size.y * 0.5 + 4.0
-	var max_z := map_size.y * 0.5 - 6.0
+	# Keep parts well away from the mountain cliff faces (east/west)
+	# and the boundary walls (north/south).
+	var edge_margin_x := 6.0
+	var edge_margin_z := 6.0
+	var min_x := -map_size.x * 0.5 + edge_margin_x
+	var max_x := map_size.x * 0.5 - edge_margin_x
+	var min_z := -map_size.y * 0.5 + edge_margin_z
+	var max_z := map_size.y * 0.5 - edge_margin_z
 
 	var player_pos := player.global_position if player else Vector3.ZERO
 	var car_pos := car.global_position + Vector3(3.07, 0, 0) if car else Vector3.ZERO
 
+	var space := get_world_3d().direct_space_state
+
+	# Exclude the ground from the blocking check (it sits at y~0 and would falsely block all spawns).
+	var exclude_rids: Array[RID] = []
+	var ground := get_node_or_null("Ground")
+	if ground and ground is StaticBody3D:
+		exclude_rids.append((ground as StaticBody3D).get_rid())
+
 	var placed: Array[Vector3] = []
 	var attempts := 0
-	while placed.size() < engine_parts_needed and attempts < 800:
+	while placed.size() < engine_parts_needed and attempts < 1500:
 		attempts += 1
 		var x := rng.randf_range(min_x, max_x)
 		var z := rng.randf_range(min_z, max_z)
@@ -178,18 +202,52 @@ func _spawn_random_parts() -> void:
 		if too_close:
 			continue
 
+		# Check the spot isn't inside any static body (mountain, tree, rock, bush, wall).
+		if _is_position_blocked(space, pos, exclude_rids):
+			continue
+
 		placed.append(pos)
 		var part: Node3D = part_scene.instantiate()
 		add_child(part)
 		part.global_position = pos
 
+func _is_position_blocked(space: PhysicsDirectSpaceState3D, pos: Vector3, exclude: Array[RID]) -> bool:
+	var shape := SphereShape3D.new()
+	shape.radius = 0.55
+	var query := PhysicsShapeQueryParameters3D.new()
+	query.shape = shape
+	# Place the test sphere slightly above the ground so it doesn't intersect the ground collider.
+	query.transform = Transform3D(Basis(), pos + Vector3(0, 0.4, 0))
+	query.collide_with_areas = false
+	query.collide_with_bodies = true
+	query.exclude = exclude
+	var hits := space.intersect_shape(query, 1)
+	return hits.size() > 0
+
 func _process(delta: float) -> void:
-	_update_camera(delta)
+	if Input.is_action_just_pressed("pause"):
+		_toggle_pause()
+		return
 	_update_arrow_visibility(delta)
 	if not car_fixed or driving_away:
 		return
 	if can_enter_car and Input.is_action_just_pressed("interact"):
 		_drive_away()
+
+func _physics_process(delta: float) -> void:
+	_update_camera(delta)
+
+func _toggle_pause() -> void:
+	if not pause_menu:
+		return
+	if pause_menu.visible:
+		pause_menu.close()
+	else:
+		pause_menu.open()
+
+func _on_exit_to_menu() -> void:
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://mainmenu.tscn")
 
 func _update_arrow_visibility(delta: float) -> void:
 	if not _arrow_pivot or not _arrow_mesh or not player or not camera:
@@ -220,12 +278,24 @@ func _update_arrow_visibility(delta: float) -> void:
 func _update_camera(delta: float) -> void:
 	if not camera:
 		return
-	var target_node: Node3D = car if driving_away else player
+	var target_node: Node3D = (car as Node3D) if driving_away else (player as Node3D)
 	if not target_node:
 		return
+
+	if not _camera_initialized:
+		camera.global_position = target_node.global_position + camera_offset
+		_camera_look_target = target_node.global_position
+		_camera_initialized = true
+
+	# Exponential smoothing — frame-rate independent.
+	var t: float = 1.0 - exp(-camera_follow_speed * delta)
+
 	var target_pos := target_node.global_position + camera_offset
-	camera.global_position = camera.global_position.lerp(target_pos, clamp(delta * camera_follow_speed, 0.0, 1.0))
-	camera.look_at(target_node.global_position, Vector3.UP)
+	camera.global_position = camera.global_position.lerp(target_pos, t)
+
+	# Smooth the look-at target separately so rotation eases as well as position.
+	_camera_look_target = _camera_look_target.lerp(target_node.global_position, t)
+	camera.look_at(_camera_look_target, Vector3.UP)
 
 func add_engine_part() -> void:
 	if car_fixed:
