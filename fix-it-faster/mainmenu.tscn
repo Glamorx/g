@@ -1,0 +1,102 @@
+[gd_scene load_steps=2 format=3 uid="uid://u3punqanf5ne"]
+
+[ext_resource type="Script" path="res://mainmenu.gd" id="1_main"]
+
+[node name="MainMenu" type="Control" unique_id=194530437]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.08, 0.1, 0.14, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 30.0
+offset_right = 300.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 48
+text = "Fix It Faster"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 90.0
+offset_right = 300.0
+offset_bottom = 130.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 22
+text = "Select a level"
+horizontal_alignment = 1
+
+[node name="LevelGrid" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -160.0
+offset_right = 320.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 5
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+
+[node name="ResetButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -60.0
+offset_right = -20.0
+offset_bottom = -20.0
+text = "Reset Progress"
+
+[node name="DebugUnlockButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -60.0
+offset_right = -200.0
+offset_bottom = -20.0
+text = "Debug: Unlock All"
+modulate = Color(1, 0.7, 0.4, 1)
+
+[node name="ExitButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -60.0
+offset_right = 120.0
+offset_bottom = -20.0
+text = "Exit"
