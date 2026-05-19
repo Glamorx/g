@@ -2,6 +2,7 @@
 
 ## Instalation
 To play the game copy 2 files to your pc (`fix_it_faster.exe`, `fix_it_faster.pck`)
+
 Open `fix_it_faster.exe`
 
 
