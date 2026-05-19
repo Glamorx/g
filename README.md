@@ -1,5 +1,7 @@
 # Fix it Faster
 
+![Godot Engine](https://img.shields.io/badge/Godot_4.6.2-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)
+
 ## Instalation
 To play the game copy 2 files to your pc (`fix_it_faster.exe`, `fix_it_faster.pck`)
 
