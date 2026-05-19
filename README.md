@@ -9,6 +9,11 @@ Open `fix_it_faster.exe`
 
 Game about collecting parts to fix a car and drive away from forest.
 
+## Controls
+
+WASD or Arrows to Move
+E - Use car
+
 ## Roadmap
 Future implements:
 - [ ] Adding a wild animals to forest
@@ -19,23 +24,23 @@ Future implements:
 
 
 ## Files:
-counter.gd - everything in game, passing info to map builder, resising to level, adjusting player, car positions to default and camera ofc. Creating arror for player when he isn't visible ( not working so good ). Spawning random parts toggling pause menu
+`counter.gd` - everything in game, passing info to map builder, resising to level, adjusting player, car positions to default and camera ofc. Creating arror for player when he isn't visible ( not working so good ). Spawning random parts toggling pause menu
 
-engine_part.gd - is the part that you need to collect
-engine_part.tscn - part
+`engine_part.gd` - is the part that you need to collect
+`engine_part.tscn` - part
 
-game_state.gd - game states, unlocking levels, saving, loading, reset, unlock progres
+`game_state.gd` - game states, unlocking levels, saving, loading, reset, unlock progres
 
-mainmenu.gd - main menu 
-mainmenu.tscn - adjusting a menu
+`mainmenu.gd` - main menu 
+`mainmenu.tscn` - adjusting a menu
 
-map_builder.gd - Map generator, creating 4 types of trees and adding materials to it, creating rocks, place in map
+`map_builder.gd` - Map generator, creating 4 types of trees and adding materials to it, creating rocks, place in map
 
-move.gd - able player to move
+`move.gd` - able player to move
 
-pause_menu.gd - pause menu
-pause_menu.tscn - pause menu
+`pause_menu.gd` - pause menu
+`pause_menu.tscn` - pause menu
 
-repair_zone.gd zone
+`repair_zone.gd` zone
 
-ui.gd - player ui
+`ui.gd` - player ui
