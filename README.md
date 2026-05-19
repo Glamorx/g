@@ -11,10 +11,10 @@ Game about collecting parts to fix a car and drive away from forest.
 
 ## Roadmap
 Future implements:
-- [] Adding a wild animals to forest
-- [] Adding a weapons to fight with animals
-- [] Adding a night time
-- [] Adding a Scoreboard and timers for speedrunners
+- [ ] Adding a wild animals to forest
+- [ ] Adding a weapons to fight with animals
+- [ ] Adding a night time
+- [ ] Adding a Scoreboard and timers for speedrunners
 
 
 
