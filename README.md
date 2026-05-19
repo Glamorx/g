@@ -1,3 +1,5 @@
+# Fix it Faster
+
 To play the game copy 3 files to your pc (fix_it_faster.console.exe, fix_it_faster.exe, fix_it_faster.pck,)
 Open *.exe and it should work.
 
