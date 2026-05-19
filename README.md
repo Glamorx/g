@@ -12,6 +12,7 @@ Game about collecting parts to fix a car and drive away from forest.
 ## Controls
 
 WASD or Arrows to Move
+
 E - Use car
 
 ## Roadmap
