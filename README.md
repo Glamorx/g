@@ -1,7 +1,8 @@
 # Fix it Faster
 
-To play the game copy 3 files to your pc (fix_it_faster.console.exe, fix_it_faster.exe, fix_it_faster.pck,)
-Open *.exe and it should work.
+## Instalation
+To play the game copy 2 files to your pc ('fix_it_faster.exe', 'fix_it_faster.pck')
+Open 'fix_it_faster.exe'
 
 Game about collecting parts to fix a car and drive away from forest.
 Future implements:
