@@ -12,7 +12,7 @@ Future implements:
 
 
 
-Files:
+## Files:
 counter.gd - everything in game, passing info to map builder, resising to level, adjusting player, car positions to default and camera ofc. Creating arror for player when he isn't visible ( not working so good ). Spawning random parts toggling pause menu
 
 engine_part.gd - is the part that you need to collect
